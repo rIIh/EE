@@ -1,53 +1,99 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGen : MonoBehaviour {
-
+public class MapGen : MonoBehaviour
+{
+    
     public int levelSize;
     public float tileSize;
     public GameObject tile;
     Vector3 currentPos;
-    Vector3 nextPos;
-    Vector3[] orientation;
+    Vector3[] orientation = new Vector3[4];
+    public List<Vector3> tileCoords = new List<Vector3>();
+    Vector3 currentOrient;
+    Vector3 wannaBeLoc;
 
-    void Awake()
+    void ResetVars()
     {
+        tileCoords.Clear();
         orientation[0] = new Vector3(tileSize, 0, 0);
+        orientation[1] = new Vector3(0, 0, tileSize);
+        orientation[2] = new Vector3(-tileSize, 0, 0);
+        orientation[3] = new Vector3(0, 0, -tileSize);
+        tile.transform.localScale = new Vector3(tileSize / 100, (float)0.1, tileSize / 100);
     }
-    // Use this for initialization
-    void OnStart() {
-        mapGen();
-	}
 
-
-    void mapGen ()
+    void PlaceTile(Vector3 CurLoc, int ind)
     {
-        currentPos = new Vector3(0,0,0);
-        Instantiate(tile, currentPos, new Quaternion());
-        for (int i = 0; i < levelSize; i++)
+        tileCoords.Add(CurLoc);
+        tile = Instantiate(tile, currentPos + new Vector3(0, ((float)ind+1)/5, 0), new Quaternion());
+        tile.transform.parent = gameObject.transform;
+        tile.name = tile.name.Replace("(Clone)", "");
+    }
+
+    void Start()
+    {
+        ResetVars();
+        PlaceTile(new Vector3(0, 0, 0), -1);
+        generateFirstBranch();
+    }
+
+
+    void generateFirstBranch()
+    {
+        currentPos = new Vector3(0, 0, 0);
+        currentOrient = new Vector3(0, 0, 0);
+        for (int i = 0; i < levelSize - 1; i++)
         {
-            foreach (Vector3 orient in orientation)
+            int orInd = 0;
+            foreach ( Vector3 orient in orientation)
             {
-                if ( Random.Range(0, 100) > 70)
-                {
-                    print("huy");
-                    currentPos = currentPos + orient;
+                orInd++;
+                if (Random.Range(0, 100) > Random.Range(60, 80))
+                { 
+                    wannaBeLoc = currentPos + orient;
+                    currentOrient = orient;
+                    break;
                 }
             }
 
-            Instantiate(tile, currentPos, new Quaternion());
+            //orInd++;
+
+            if (orInd == 4)
+            {
+                orInd = 0;
+            }
+
+            if(orInd > 4)
+            {
+                i--;
+                continue;
+            }
+
+
+            if (
+                !tileCoords.Contains(wannaBeLoc) &&
+ //               !tileCoords.Contains(wannaBeLoc + currentOrient) &&
+                !tileCoords.Contains(wannaBeLoc + orientation[orInd]) &&
+                !tileCoords.Contains(wannaBeLoc - orientation[orInd]) &&
+                !tileCoords.Contains(wannaBeLoc + currentOrient - orientation[orInd]) &&
+                !tileCoords.Contains(wannaBeLoc + currentOrient + orientation[orInd])
+                )
+            {
+                currentPos = wannaBeLoc;
+                PlaceTile(currentPos, i);
+            }
+            else
+            {
+                i--;
+                continue;
+            }
 
         }
     }
 
-    void gridCreation()
-    {
-        
-    }
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
+
+
+
