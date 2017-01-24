@@ -18,6 +18,12 @@ public class MapGen : MonoBehaviour
     public GameObject link;
     List<GameObject> links = new List<GameObject>();
     List<GameObject> roots = new List<GameObject>();
+    public GameObject corner;
+    public GameObject corridor;
+    public GameObject threeway;
+    public GameObject fourway;
+    public GameObject deadEnd;
+
 
     void ResetVars()
     {
@@ -70,6 +76,7 @@ public class MapGen : MonoBehaviour
         linkCoords.Clear();
         PlaceLinks();
         LinkTiles();
+        PlaceCorridors();
     }
 
 
@@ -309,6 +316,81 @@ public class MapGen : MonoBehaviour
             generateFirstBranch(curLoc, size);
         }
     }
+
+    void PlaceCorridors()
+    {
+        foreach(Vector3 curPos in tileCoords)
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                var orient = orientation[i];
+                var ind = i + 1;
+                if (ind == 4) { ind = 0; }
+                bool isCorner = (
+                    !tileCoords.Contains(curPos + orient) &&
+                     tileCoords.Contains(curPos - orient) &&
+                     tileCoords.Contains(curPos + orientation[ind]) &&
+                    !tileCoords.Contains(curPos - orientation[ind])
+                    );
+
+                bool isCorridor = 
+                    tileCoords.Contains(curPos + orient) &&
+                    tileCoords.Contains(curPos - orient) &&
+                    !tileCoords.Contains(curPos + orientation[ind]) &&
+                    !tileCoords.Contains(curPos - orientation[ind]);
+
+                bool isThreeWay = 
+                    tileCoords.Contains(curPos + orient) &&
+                    tileCoords.Contains(curPos - orient) &&
+                    tileCoords.Contains(curPos + orientation[ind]) &&
+                    !tileCoords.Contains(curPos - orientation[ind]);
+
+                bool isFourWay = 
+                    tileCoords.Contains(curPos + orient) &&
+                    tileCoords.Contains(curPos - orient) &&
+                    tileCoords.Contains(curPos + orientation[ind]) &&
+                    tileCoords.Contains(curPos - orientation[ind]);
+
+                bool isDeadEnd = 
+                    tileCoords.Contains(curPos + orient) &&
+                    !tileCoords.Contains(curPos - orient) &&
+                    !tileCoords.Contains(curPos + orientation[ind]) &&
+                    !tileCoords.Contains(curPos - orientation[ind]);
+
+                var rotator = Quaternion.identity;
+                rotator.eulerAngles = new Vector3(0, ind * 90, 0);
+                print(i);
+                if (isCorner)
+                {
+                    Instantiate(corner, curPos, rotator, gameObject.transform);
+                    break;
+                } else if (isCorridor)
+                {
+                    Instantiate(corridor, curPos, rotator, gameObject.transform);
+                    break;
+                } else if (isThreeWay)
+                {
+                    Instantiate(threeway, curPos, rotator, gameObject.transform);
+                    break;
+
+                }
+                else if (isFourWay)
+                {
+                    Instantiate(fourway, curPos, rotator, gameObject.transform);
+                    break;
+
+                }
+                else if (isDeadEnd)
+                {
+                    Instantiate(deadEnd, curPos, rotator, gameObject.transform);
+                    break;
+
+                }
+
+            }
+        }
+    }
+
 }
 
 
