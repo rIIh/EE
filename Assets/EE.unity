@@ -240,7 +240,9 @@ MonoBehaviour:
   tile: {fileID: 100000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 2}
   tileCoords: []
   treeRoots: []
+  linkCoords: []
   root: {fileID: 100000, guid: ab33e6080ae416b4d899f39fa8951b98, type: 2}
+  link: {fileID: 100000, guid: 5d2e4237b4429b34fae4c9eb3cd9efd5, type: 2}
 --- !u!4 &2055615076
 Transform:
   m_ObjectHideFlags: 0
