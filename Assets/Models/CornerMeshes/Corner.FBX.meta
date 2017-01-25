@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 25fab76feac62524089b216b07b3dcba
+guid: e738f66fc88b4b148b3b6fd2a0eda2a6
 timeCreated: 1485333780
 licenseType: Free
 ModelImporter:
@@ -10,9 +10,10 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Box002
+    6400000: //RootNode
     9500000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -37,7 +38,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
