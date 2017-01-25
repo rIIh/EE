@@ -29,9 +29,9 @@ public class MapGen : MonoBehaviour
     {
         tileCoords.Clear();
         orientation[0] = new Vector3(tileSize, 0, 0);
-        orientation[1] = new Vector3(0, 0, tileSize);
+        orientation[1] = new Vector3(0, 0, -tileSize);
         orientation[2] = new Vector3(-tileSize, 0, 0);
-        orientation[3] = new Vector3(0, 0, -tileSize);
+        orientation[3] = new Vector3(0, 0, tileSize);
         tile.transform.localScale = new Vector3(tileSize / 100, (float)0.1, tileSize / 100);
         root.transform.localScale = new Vector3(tileSize / 100, (float)0.2, tileSize / 100);
         link.transform.localScale = new Vector3(tileSize / 10, (float)0.1, tileSize / 10);
@@ -40,8 +40,7 @@ public class MapGen : MonoBehaviour
     void PlaceTile(Vector3 curLoc)
     {
         tileCoords.Add(curLoc);
-        tile = Instantiate(tile, curLoc, new Quaternion());
-        tile.transform.parent = gameObject.transform;
+        tile = Instantiate(tile, curLoc, new Quaternion(), gameObject.transform);
         tile.name = tile.name.Replace("(Clone)", "");
     }
 
@@ -259,7 +258,7 @@ public class MapGen : MonoBehaviour
 
                     }
                     
-                } else { print(false); }
+                } 
                 ind++;
             }
         }
@@ -299,7 +298,6 @@ public class MapGen : MonoBehaviour
                         )
                     )
                 {
-                    print(true);
                     PlaceTile(curPos);
                     break;
                 }
@@ -359,30 +357,36 @@ public class MapGen : MonoBehaviour
 
                 var rotator = Quaternion.identity;
                 rotator.eulerAngles = new Vector3(0, ind * 90, 0);
-                print(i);
                 if (isCorner)
                 {
                     Instantiate(corner, curPos, rotator, gameObject.transform);
+                    corner.GetComponent<RoomGenerator>().isTileCorner = true;
                     break;
-                } else if (isCorridor)
+                }
+                else if (isCorridor)
                 {
                     Instantiate(corridor, curPos, rotator, gameObject.transform);
+                    corridor.GetComponent<RoomGenerator>().isTileCorridor = true;
                     break;
-                } else if (isThreeWay)
+                }
+                else if (isThreeWay)
                 {
                     Instantiate(threeway, curPos, rotator, gameObject.transform);
+                    threeway.GetComponent<RoomGenerator>().isTileThreeWay = true;
                     break;
 
                 }
                 else if (isFourWay)
                 {
                     Instantiate(fourway, curPos, rotator, gameObject.transform);
+                    fourway.GetComponent<RoomGenerator>().isTileFourWay = true;
                     break;
 
                 }
                 else if (isDeadEnd)
                 {
                     Instantiate(deadEnd, curPos, rotator, gameObject.transform);
+                    deadEnd.GetComponent<RoomGenerator>().isTileDeadEnd = true;
                     break;
 
                 }
