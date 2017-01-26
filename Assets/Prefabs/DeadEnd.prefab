@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114625906619197176}
   m_Layer: 0
   m_Name: DeadEnd
-  m_TagString: Untagged
+  m_TagString: DeadEnd
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,8 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc95f1a9eaeb32b4d8676223c5b70984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCorner: 0
-  isCorridor: 0
-  isDeadEnd: 0
-  isFourWay: 0
-  isThreeWay: 0
+  isTileCorner: 0
+  isTileCorridor: 0
+  isTileDeadEnd: 1
+  isTileFourWay: 0
+  isTileThreeWay: 0
+  CornerInstances: []
+  CorridorInstances: []
+  DeadEndInstances: []
+  ThreeWayInstances: []
+  FourWayInstances: []
+  orient: {x: 0, y: 0, z: -20}
+  sideorient: {x: -20, y: 0, z: 0}
