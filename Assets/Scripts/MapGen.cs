@@ -262,7 +262,7 @@ public class MapGen : MonoBehaviour
                     (
                     !tileCoords.Contains(wannaBeLoc + orientation[orInd]) &&
                     !tileCoords.Contains(wannaBeLoc - currentOrient) &&
-                    !tileCoords.Contains(wannaBeLoc -currentOrient + orientation[orInd])
+                    !tileCoords.Contains(wannaBeLoc - currentOrient + orientation[orInd])
                     )
                     ||
                     (
@@ -270,7 +270,7 @@ public class MapGen : MonoBehaviour
                     !tileCoords.Contains(wannaBeLoc - currentOrient) &&
                     !tileCoords.Contains(wannaBeLoc - currentOrient - orientation[orInd])
                     )
-                    )                    
+                    )
 
                     )
                 {
@@ -361,6 +361,8 @@ public class MapGen : MonoBehaviour
                                 linkCoords.Add(placeLoc);
                                 break;
                             }
+                            linkCoords.Add(placeLoc);
+
                         }
 
                     }
@@ -433,54 +435,58 @@ public class MapGen : MonoBehaviour
                 var ind = i + 1;
                 if (ind == 4) { ind = 0; }
                 bool isCorner = (
-                    !tileCoords.Contains(curPos + orient) &&
-                     tileCoords.Contains(curPos - orient) &&
-                     tileCoords.Contains(curPos + orientation[ind]) &&
+                    !tileCoords.Contains(curPos + orient) &
+                    tileCoords.Contains(curPos - orient) &
+                    tileCoords.Contains(curPos + orientation[ind]) &
                     !tileCoords.Contains(curPos - orientation[ind])
                     );
 
                 bool isCorridor =
-                    tileCoords.Contains(curPos + orient) &&
-                    tileCoords.Contains(curPos - orient) &&
-                    !tileCoords.Contains(curPos + orientation[ind]) &&
+                    tileCoords.Contains(curPos + orient) &
+                    tileCoords.Contains(curPos - orient) &
+                    !tileCoords.Contains(curPos + orientation[ind]) &
                     !tileCoords.Contains(curPos - orientation[ind]);
 
                 bool isThreeWay =
-                    tileCoords.Contains(curPos + orient) &&
-                    tileCoords.Contains(curPos - orient) &&
-                    tileCoords.Contains(curPos + orientation[ind]) &&
+                    tileCoords.Contains(curPos + orient) &
+                    tileCoords.Contains(curPos - orient) &
+                    tileCoords.Contains(curPos + orientation[ind]) &
                     !tileCoords.Contains(curPos - orientation[ind]);
 
                 bool isFourWay =
-                    tileCoords.Contains(curPos + orient) &&
-                    tileCoords.Contains(curPos - orient) &&
-                    tileCoords.Contains(curPos + orientation[ind]) &&
+                    tileCoords.Contains(curPos + orient) &
+                    tileCoords.Contains(curPos - orient) &
+                    tileCoords.Contains(curPos + orientation[ind]) &
                     tileCoords.Contains(curPos - orientation[ind]);
 
                 bool isDeadEnd =
-                    tileCoords.Contains(curPos + orient) &&
-                    !tileCoords.Contains(curPos - orient) &&
-                    !tileCoords.Contains(curPos + orientation[ind]) &&
+                    tileCoords.Contains(curPos + orient) &
+                    !tileCoords.Contains(curPos - orient) &
+                    !tileCoords.Contains(curPos + orientation[ind]) &
                     !tileCoords.Contains(curPos - orientation[ind]);
 
                 var rotator = Quaternion.identity;
-                rotator.eulerAngles = new Vector3(0, ind * 90, 0);
+                rotator.eulerAngles = new Vector3(0, (ind) * 90, 0);
 
                 if (isCorner)
                 {
                     Instantiate(corner, curPos + new Vector3(0, 1, 0), rotator, gameObject.transform);
                     corner.GetComponent<RoomGenerator>().isTileCorner = true;
-                    corner.GetComponent<RoomGenerator>().orient = orient;
-                    corner.GetComponent<RoomGenerator>().sideorient = orientation[ind];
+                    corner.GetComponent<RoomGenerator>().rot = rotator;
+                    corner.GetComponent<RoomGenerator>().d1loc = curPos - orient / 2 + new Vector3(0, 1, 0);
+                    corner.GetComponent<RoomGenerator>().d2loc = curPos + orientation[ind] / 2 + new Vector3(0, 1, 0);
                     corner.tag = "Corner";
+
                     break;
                 }
                 else if (isCorridor)
                 {
                     Instantiate(corridor, curPos + new Vector3(0, 1, 0), rotator, gameObject.transform);
                     corridor.GetComponent<RoomGenerator>().isTileCorridor = true;
-                    corridor.GetComponent<RoomGenerator>().orient = orient;
-                    corridor.GetComponent<RoomGenerator>().sideorient = orientation[ind];
+                    corridor.GetComponent<RoomGenerator>().rot = rotator;
+                    corridor.GetComponent<RoomGenerator>().d1loc = curPos + orient/2 + new Vector3(0, 1, 0);
+                    corridor.GetComponent<RoomGenerator>().d2loc = curPos - orient/2 + new Vector3(0, 1, 0);
+
                     corridor.tag = "Corridor";
                     break;
                 }
@@ -488,9 +494,10 @@ public class MapGen : MonoBehaviour
                 {
                     Instantiate(threeway, curPos + new Vector3(0, 1, 0), rotator, gameObject.transform);
                     threeway.GetComponent<RoomGenerator>().isTileThreeWay = true;
-
-                    threeway.GetComponent<RoomGenerator>().orient = orient;
-                    threeway.GetComponent<RoomGenerator>().sideorient = orientation[ind];
+                    threeway.GetComponent<RoomGenerator>().rot = rotator;
+                    threeway.GetComponent<RoomGenerator>().d1loc = curPos + orient/2 + new Vector3(0, 1, 0);
+                    threeway.GetComponent<RoomGenerator>().d2loc = curPos + orientation[ind]/2 + new Vector3(0, 1, 0);
+                    threeway.GetComponent<RoomGenerator>().d3loc = curPos - orient/2 + new Vector3(0, 1, 0);
                     threeway.tag = "ThreeWay";
                     break;
 
@@ -499,8 +506,11 @@ public class MapGen : MonoBehaviour
                 {
                     Instantiate(fourway, curPos + new Vector3(0, 1, 0), rotator, gameObject.transform);
                     fourway.GetComponent<RoomGenerator>().isTileFourWay = true;
-                    fourway.GetComponent<RoomGenerator>().orient = orient;
-                    fourway.GetComponent<RoomGenerator>().sideorient = orientation[ind];
+                    fourway.GetComponent<RoomGenerator>().rot = rotator;
+                    fourway.GetComponent<RoomGenerator>().d1loc = curPos +  orient/2 + new Vector3(0, 1, 0);
+                    fourway.GetComponent<RoomGenerator>().d2loc = curPos + orientation[ind]/2 + new Vector3(0, 1, 0);
+                    fourway.GetComponent<RoomGenerator>().d3loc = curPos - orientation[ind]/2 + new Vector3(0, 1, 0);
+                    fourway.GetComponent<RoomGenerator>().d4loc = curPos - orient/2 + new Vector3(0, 1, 0);
                     fourway.tag = "FourWay";
                     break;
 
@@ -509,12 +519,11 @@ public class MapGen : MonoBehaviour
                 {
                     Instantiate(deadEnd, curPos + new Vector3(0, 1, 0), rotator, gameObject.transform);
                     deadEnd.GetComponent<RoomGenerator>().isTileDeadEnd = true;
-                    deadEnd.GetComponent<RoomGenerator>().orient = orient;
-                    deadEnd.GetComponent<RoomGenerator>().sideorient = orientation[ind];
+                    deadEnd.GetComponent<RoomGenerator>().rot = rotator;
                     deadEnd.tag = "DeadEnd";
+                    deadEnd.GetComponent<RoomGenerator>().d1loc = curPos + orient / 2 + new Vector3(0, 1, 0);
                     break;
-
-                }
+                } 
 
             }
         }
@@ -534,6 +543,9 @@ public class MapGen : MonoBehaviour
         }
 
     }
+
+ 
+
 }
 
 

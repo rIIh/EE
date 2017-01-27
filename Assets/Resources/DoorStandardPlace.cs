@@ -11,182 +11,134 @@ public class DoorStandardPlace : MonoBehaviour {
     public bool isdead;
     public Object door;
     public Quaternion rotator;
-
+    public Vector3 d1loc;
+    public Vector3 d2loc;
+    public Vector3 d3loc;
+    public Vector3 d4loc;
     // Use this for initialization
     void Start() {
 
-        transform.position.Set(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), Mathf.RoundToInt(transform.position.z));
-
-
         door = Resources.Load("Door");
+       // gameObject.transform.rotation = rotator;
+
         if (iscorner)
         {
-            var door1 = (GameObject)Instantiate(door, transform.position + new Vector3(10, 0, 0), Quaternion.Euler(0, 0, 0), gameObject.transform);
-            var door2 = (GameObject)Instantiate(door, transform.position - new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-          gameObject.transform.rotation = rotator;
-            door1.transform.position.Set(Mathf.RoundToInt(door1.transform.position.x), Mathf.RoundToInt(door1.transform.position.y), Mathf.RoundToInt(door1.transform.position.z));
-            door2.transform.position.Set(Mathf.RoundToInt(door2.transform.position.x), Mathf.RoundToInt(door2.transform.position.y), Mathf.RoundToInt(door2.transform.position.z));
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door1.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d1loc))
             {
-                print("Destroes");
-
-               DestroyObject(door1);
-            } else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door1.transform.position);
-
+                var door1 = (GameObject)Instantiate(door, d1loc, Quaternion.Euler(0, 0, 0), gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d1loc);
+                RotateDoor(d1loc, door1);
             }
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door2.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d2loc))
             {
-                print("Destroes");
-                DestroyObject(door2);
-            } else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door2.transform.position);
-
+                var door2 = (GameObject)Instantiate(door, d2loc, Quaternion.Euler(0, 0, 0), gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d2loc);
+                RotateDoor(d2loc, door2);
             }
         }
+
         if (iscorrd)
         {
-            var door1 = (GameObject)Instantiate(door, transform.position + new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-            var door2 = (GameObject)Instantiate(door, transform.position - new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-           gameObject.transform.rotation = rotator;
-            door1.transform.position.Set(Mathf.RoundToInt(door1.transform.position.x), Mathf.RoundToInt(door1.transform.position.y), Mathf.RoundToInt(door1.transform.position.z));
-            door2.transform.position.Set(Mathf.RoundToInt(door2.transform.position.x), Mathf.RoundToInt(door2.transform.position.y), Mathf.RoundToInt(door2.transform.position.z));
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door1.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d1loc))
             {
-                print("Destroes");
-
-                DestroyObject(door1);
+                var door1 = (GameObject)Instantiate(door, d1loc, Quaternion.Euler(0, 0, 0), gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d1loc);
+                RotateDoor(d1loc, door1);
             }
-            else
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d2loc))
             {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door1.transform.position);
-                print(door1.transform.position);
-
-            }
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door2.transform.position))
-            {
-                print("Destroes");
-                DestroyObject(door2);
-            }
-            else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door2.transform.position);
-                print(door2.transform.position);
-
+                var door2 = (GameObject)Instantiate(door, d2loc, Quaternion.Euler(0, 0, 0), gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d2loc);
+                RotateDoor(d2loc, door2);
             }
         }
+
+
         if (isthree)
         {
-            var door1 = (GameObject)Instantiate(door, transform.position + new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-            var door2 = (GameObject)Instantiate(door, transform.position + new Vector3(10, 0, 0), Quaternion.Euler(0, 0, 0), gameObject.transform);
-            var door3 = (GameObject)Instantiate(door, transform.position - new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-           gameObject.transform.rotation = rotator;
-            door1.transform.position.Set(Mathf.RoundToInt(door1.transform.position.x), Mathf.RoundToInt(door1.transform.position.y), Mathf.RoundToInt(door1.transform.position.z));
-            door2.transform.position.Set(Mathf.RoundToInt(door2.transform.position.x), Mathf.RoundToInt(door2.transform.position.y), Mathf.RoundToInt(door2.transform.position.z));
-            door3.transform.position.Set(Mathf.RoundToInt(door3.transform.position.x), Mathf.RoundToInt(door3.transform.position.y), Mathf.RoundToInt(door3.transform.position.z));
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door1.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d1loc))
             {
-                print("Destroes");
-
-                DestroyObject(door1);
+                var door1 = (GameObject)Instantiate(door, d1loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d1loc);
+                RotateDoor(d1loc, door1);
             }
-            else
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d2loc))
             {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door1.transform.position);
+                var door2 = (GameObject)Instantiate(door, d2loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d2loc);
+                RotateDoor(d2loc, door2);
             }
 
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door2.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d3loc))
             {
-                print("Destroes");
-               DestroyObject(door2);
-            }
-            else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door2.transform.position);
-
-            }
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door3.transform.position))
-            {
-                print("Destroes");
-                DestroyObject(door3);
-            }
-            else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door3.transform.position);
-
+                var door3 = (GameObject)Instantiate(door, d3loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d3loc);
+                RotateDoor(d3loc, door3);
             }
         }
 
         if (isfour)
         {
-            var door1 = (GameObject)Instantiate(door, transform.position + new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-            var door2 = (GameObject)Instantiate(door, transform.position + new Vector3(10, 0, 0), Quaternion.Euler(0, 0, 0), gameObject.transform);
-            var door3 = (GameObject)Instantiate(door, transform.position - new Vector3(0, 0, 10), Quaternion.Euler(0, 90, 0), gameObject.transform);
-            var door4 = (GameObject)Instantiate(door, transform.position - new Vector3(10, 0, 0), Quaternion.Euler(0, 0, 0), gameObject.transform);
-          gameObject.transform.rotation = rotator;
-            door1.transform.position.Set(Mathf.RoundToInt(door1.transform.position.x), Mathf.RoundToInt(door1.transform.position.y), Mathf.RoundToInt(door1.transform.position.z));
-            door2.transform.position.Set(Mathf.RoundToInt(door2.transform.position.x), Mathf.RoundToInt(door2.transform.position.y), Mathf.RoundToInt(door2.transform.position.z));
-            door3.transform.position.Set(Mathf.RoundToInt(door3.transform.position.x), Mathf.RoundToInt(door3.transform.position.y), Mathf.RoundToInt(door3.transform.position.z));
-            door4.transform.position.Set(Mathf.RoundToInt(door4.transform.position.x), Mathf.RoundToInt(door4.transform.position.y), Mathf.RoundToInt(door4.transform.position.z));
-
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door1.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d1loc))
             {
-                print("Destroes");
-
-                DestroyObject(door1);
+                var door1 = (GameObject)Instantiate(door, d1loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d1loc);
+                RotateDoor(d1loc, door1);
             }
-            else
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d2loc))
             {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door1.transform.position);
+                var door2 = (GameObject)Instantiate(door, d2loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d2loc);
+                RotateDoor(d2loc, door2);
             }
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door2.transform.position))
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d3loc))
             {
-                print("Destroes");
-                DestroyObject(door2);
+                var door3 = (GameObject)Instantiate(door, d3loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d3loc);
+                RotateDoor(d3loc, door3);
             }
-            else
+            if (!GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(d4loc))
             {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door2.transform.position);
-
+                var door4 = (GameObject)Instantiate(door, d4loc, Quaternion.identity, gameObject.transform);
+                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(d4loc);
+                RotateDoor(d4loc, door4);
             }
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door3.transform.position))
-            {
-                print("Destroes");
-               DestroyObject(door3);
-            }
-            else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door3.transform.position);
-
-            }
-
-            if (GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Contains(door4.transform.position))
-            {
-                print("Destroes");
-
-                DestroyObject(door4);
-            }
-            else
-            {
-                GameObject.Find("MapGenerator").GetComponent<MapGen>().DoorCoords.Add(door4.transform.position);
-            }
-
-
         }
 
         if (isdead)
         {
-           gameObject.transform.rotation = rotator;
+            
         }
+
     }
 
+    void RotateDoor(Vector3 dloc, GameObject door)
+    { var i = dloc.z;
+        var k = dloc.x;
+        int iter = 0;
+        while (i % 10 == 0)
+        {
+            i /= 10;
+            iter++;
+            if (iter > 20)
+            {
+                break;
+            }
+        }
+        iter = 0;
+        while (k % 10 == 0)
+        {
+            k /= 10;
+            iter++;
+            if (iter > 20)
+            {
+                break;
+            }
+        }
+        if (!Mathf.Approximately(i % 2, 0))
+        {
+            door.transform.eulerAngles = new Vector3(0, 90, 0);
+        }
 
+    }
 }

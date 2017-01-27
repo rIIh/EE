@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4429472479973808}
   - component: {fileID: 114584020016189234}
+  - component: {fileID: 114462302503238298}
   m_Layer: 0
   m_Name: Corner
   m_TagString: Corner
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114462302503238298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146895949499638}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3d173753f922343ae4d3522fdf583f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isNear: 0
 --- !u!114 &114584020016189234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -61,5 +74,6 @@ MonoBehaviour:
   DeadEndInstances: []
   ThreeWayInstances: []
   FourWayInstances: []
-  orient: {x: -20, y: 0, z: 0}
-  sideorient: {x: 0, y: 0, z: 20}
+  orient: {x: 0, y: 0, z: -20}
+  sideorient: {x: -20, y: 0, z: 0}
+  ind: 1
