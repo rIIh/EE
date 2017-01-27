@@ -1,10 +1,18 @@
 fileFormatVersion: 2
 guid: 84bc5f8d1bbb6fd4dbb33cff126988da
-timeCreated: 1485213124
+timeCreated: 1485551521
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tile: {fileID: 100000, guid: 3681543e5b0f59742b73073cb379cdc6, type: 2}
+  - root: {fileID: 100000, guid: 2b127815fd0f2074eae3a0c6a4786d0b, type: 2}
+  - link: {fileID: 100000, guid: 5d2e4237b4429b34fae4c9eb3cd9efd5, type: 2}
+  - corner: {fileID: 1146895949499638, guid: 17e2218f638cb6c41bceb2cc3a2f1108, type: 2}
+  - corridor: {fileID: 1507906792917774, guid: acb90c63e8e056e40ac2eb4427a24be9, type: 2}
+  - threeway: {fileID: 1482985621189332, guid: c3ee675b775c4554eaf0488f8c5332f0, type: 2}
+  - fourway: {fileID: 1326816636667298, guid: 2cfd943ff8ae95a4a86e096719eeb742, type: 2}
+  - deadEnd: {fileID: 1281867110385766, guid: 4f62c8bfad9f6d549ad66225d6cf746c, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

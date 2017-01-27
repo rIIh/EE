@@ -77,7 +77,13 @@ public class MapGen : MonoBehaviour
 
     void Start()
     {
-        Random.seed = seed.GetHashCode();
+        if (Seed.seedsave != null) { 
+        Random.seed = Seed.seedsave.GetHashCode();
+    } else
+        {
+            Random.seed = System.DateTime.UtcNow.ToString().GetHashCode();
+        }
+
         ResetVars();
         PlaceTile(new Vector3(0, 0, 0));
         generateFirstBranch(new Vector3(0, 0, 0), levelSize);

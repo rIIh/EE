@@ -18,7 +18,8 @@ public class DoorStandardPlace : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        door = Resources.Load("Door");
+
+        door = Resources.Load<GameObject>("Door");
        // gameObject.transform.rotation = rotator;
 
         if (iscorner)
