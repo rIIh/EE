@@ -13,6 +13,9 @@ public class MainMenu : MonoBehaviour {
     {
         GameObject.Find("Canvas").transform.FindChild("Panel").transform.FindChild("Slide").GetComponent<Animator>().SetBool("AnyButtonPressed", true);
         GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("StartGame").GetComponent<Animator>().SetBool("StartGameBtn", true);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("StartGame").GetComponent<Animator>().SetBool("OnTheScreen", true);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("Exit").GetComponent<Animator>().SetBool("OnTheScreen", false);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("Exit").GetComponent<Animator>().SetBool("ExitBtn", false);
 
     }
 
@@ -34,4 +37,26 @@ public class MainMenu : MonoBehaviour {
         Seed.seedsave = seed;
         SceneManager.LoadScene("EE");
     }
+
+    public void OnClickExit()
+    {
+        GameObject.Find("Canvas").transform.FindChild("Panel").transform.FindChild("Slide").GetComponent<Animator>().SetBool("AnyButtonPressed", true);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("Exit").GetComponent<Animator>().SetBool("ExitBtn", true);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("Exit").GetComponent<Animator>().SetBool("OnTheScreen", true);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("StartGame").GetComponent<Animator>().SetBool("OnTheScreen", false);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("StartGame").GetComponent<Animator>().SetBool("StartGameBtn", false);
+
+    }
+public void ExitYes()
+    {
+        Application.Quit();
+    }
+    public void ExitNo()
+    {
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("Exit").GetComponent<Animator>().SetBool("OnTheScreen", false);
+        GameObject.Find("Canvas").transform.FindChild("RightMask").transform.FindChild("Exit").GetComponent<Animator>().SetBool("ExitBtn", false);
+        GameObject.Find("Canvas").transform.FindChild("Panel").transform.FindChild("Slide").GetComponent<Animator>().SetBool("AnyButtonPressed", false);
+
+    }
+
 }
