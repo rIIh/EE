@@ -20,7 +20,7 @@ public class OptimisationTest : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         length = player.transform.position - instance.position + new Vector3(0, 0.8f, 0);
-        if (length.magnitude < 100)
+        if (length.magnitude < 70)
         {
             Enable();
         } else { Disable(); }
@@ -28,12 +28,12 @@ public class OptimisationTest : MonoBehaviour {
 
     void Disable()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
 
     void Enable()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().enabled = true;
     }
 
 

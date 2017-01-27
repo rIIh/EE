@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 82645837408859336}
   - component: {fileID: 95514826165977866}
   - component: {fileID: 23438688923321000}
+  - component: {fileID: 114663316010727162}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -271,7 +272,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1931405308716162}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -548,7 +549,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.893
+  m_Volume: 0.369
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -650,6 +651,18 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114663316010727162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1931405308716162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d876748f7b66a3d4cbfb7a6919eb600d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isNear: 0
 --- !u!114 &114801250151814702
 MonoBehaviour:
   m_ObjectHideFlags: 1
