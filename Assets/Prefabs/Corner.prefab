@@ -74,8 +74,9 @@ MonoBehaviour:
   DeadEndInstances: []
   ThreeWayInstances: []
   FourWayInstances: []
-  d1loc: {x: -110, y: 1, z: 140}
-  d2loc: {x: -120, y: 1, z: 150}
+  d1loc: {x: -110, y: 1, z: -60}
+  d2loc: {x: -120, y: 1, z: -50}
   d3loc: {x: 0, y: 0, z: 0}
   d4loc: {x: 0, y: 0, z: 0}
   rot: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
+  type: {fileID: 0}

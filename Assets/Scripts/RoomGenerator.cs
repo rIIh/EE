@@ -19,19 +19,20 @@ public class RoomGenerator : MonoBehaviour {
     public Vector3 d3loc;
     public Vector3 d4loc;
     public Quaternion rot;
+    public GameObject type;
 
     void CreateInstances()
     {
 
-        CornerInstances.AddRange(Resources.LoadAll<GameObject>("CornerMeshes/"));
+        CornerInstances.AddRange(Resources.LoadAll<GameObject>("CornerMeshes/CornerPrefabs"));
 
-        CorridorInstances.AddRange(Resources.LoadAll<GameObject>("CorridorMeshes/"));
+        CorridorInstances.AddRange(Resources.LoadAll<GameObject>("CorridorMeshes/CorridorPrefabs"));
 
-        DeadEndInstances.AddRange(Resources.LoadAll<GameObject>("DeadEndMeshes/"));
+        DeadEndInstances.AddRange(Resources.LoadAll<GameObject>("DeadEndMeshes/DeadEndPrefabs"));
 
-        FourWayInstances.AddRange(Resources.LoadAll<GameObject>("FourWayMeshes/"));
+        FourWayInstances.AddRange(Resources.LoadAll<GameObject>("FourWayMeshes/FourWayPrefabs"));
         
-        ThreeWayInstances.AddRange(Resources.LoadAll<GameObject>("ThreeWayMeshes/"));
+        ThreeWayInstances.AddRange(Resources.LoadAll<GameObject>("ThreeWayMeshes/ThreeWayPrefabs"));
     }
 
     void ResetInst()
@@ -62,6 +63,7 @@ public class RoomGenerator : MonoBehaviour {
             var rand = Random.Range(0, CornerInstances.Count);
             var corner = Instantiate(CornerInstances[rand], gameObject.transform.position, gameObject.transform.rotation, gameObject.transform);
             corner.name = "CornerInstance";
+            type = corner;
         
             corner.AddComponent<DoorStandardPlace>();
             corner.GetComponent<DoorStandardPlace>().iscorner = true;
@@ -77,6 +79,7 @@ public class RoomGenerator : MonoBehaviour {
             var rand = Random.Range(0, CorridorInstances.Count);
             var corridor = Instantiate(CorridorInstances[rand], gameObject.transform.position, gameObject.transform.rotation, gameObject.transform);
             corridor.name = "CorridorInstance";
+            type = corridor;
 
             corridor.AddComponent<DoorStandardPlace>();
             corridor.GetComponent<DoorStandardPlace>().rotator = rot;
@@ -93,7 +96,9 @@ public class RoomGenerator : MonoBehaviour {
         {
             var rand = Random.Range(0, DeadEndInstances.Count);
             var dd = Instantiate(DeadEndInstances[rand], gameObject.transform.position, gameObject.transform.rotation, gameObject.transform);
-            dd.name = "DeadEndInstance";      
+            dd.name = "DeadEndInstance";
+            type = dd;
+
             dd.AddComponent<DoorStandardPlace>();
             dd.GetComponent<DoorStandardPlace>().rotator = rot;
 
@@ -110,6 +115,7 @@ public class RoomGenerator : MonoBehaviour {
             var rand = Random.Range(0, ThreeWayInstances.Count);
             var tw = Instantiate(ThreeWayInstances[rand], gameObject.transform.position, gameObject.transform.rotation, gameObject.transform);
             tw.name = "ThreeWayInstance";
+            type = tw;
 
             tw.AddComponent<DoorStandardPlace>();
             tw.GetComponent<DoorStandardPlace>().rotator = rot;
@@ -127,6 +133,8 @@ public class RoomGenerator : MonoBehaviour {
             var rand = Random.Range(0, FourWayInstances.Count);
             var fw = Instantiate(FourWayInstances[rand], gameObject.transform.position, gameObject.transform.rotation, gameObject.transform);
             fw.name = "FourWayInstance";
+            type = fw;
+
             fw.AddComponent<DoorStandardPlace>();
             fw.GetComponent<DoorStandardPlace>().rotator = rot;
             fw.GetComponent<DoorStandardPlace>().isfour = true;

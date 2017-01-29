@@ -5,7 +5,11 @@ Temp/
 Library/
 Assets/Standard Assets/
 Assets/Standard Assets.meta
-
+Assets/FromStore/
+Assets/Scenes/
+*.ini
+*.meta
+Assets/Materials
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -31,3 +35,4 @@ obj/
 .Trashes
 ehthumbs.db
 Thumbs.db
+

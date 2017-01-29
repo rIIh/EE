@@ -18,6 +18,12 @@ public class DoorScript : MonoBehaviour {
         Vector3 but2toPlayer;
     Vector3 but1R;
     Vector3 but2R;
+    public string CloseAnim;
+    public string OpenAnim;
+    public string But1;
+    public string But2;
+
+
 
 
     private void OnTriggerStay(Collider other)
@@ -52,7 +58,7 @@ public class DoorScript : MonoBehaviour {
         {
             if (!isOpened && !gameObject.GetComponent<Animation>().isPlaying)
             {
-                GetComponent<Animation>().CrossFade("Open");
+                GetComponent<Animation>().CrossFade(OpenAnim);
                 isOpened = true;
                 gameObject.GetComponent<AudioSource>().clip = doorOpen;
                 gameObject.GetComponent<AudioSource>().Play();
@@ -61,7 +67,7 @@ public class DoorScript : MonoBehaviour {
             else if(!gameObject.GetComponent<Animation>().isPlaying)
 
              {
-                GetComponent<Animation>().CrossFade("Close");
+                GetComponent<Animation>().CrossFade(CloseAnim);
                 gameObject.GetComponent<AudioSource>().clip = doorClose;
                 gameObject.GetComponent<AudioSource>().Play();
                 isOpened = false;
@@ -72,8 +78,8 @@ public class DoorScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        but1 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild("Box005");
-        but2 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild("Box004");
+        but1 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild(But1);
+        but2 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild(But2);
         icon1 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
         icon2 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
 
@@ -89,8 +95,8 @@ public class DoorScript : MonoBehaviour {
     {
         doorOpen = Resources.Load<AudioClip>("Sounds/DoorOpen1");
         doorClose = Resources.Load<AudioClip>("Sounds/DoorClose1");
-        gameObject.GetComponent<Animation>()["Open"].speed = 0.5f;
-        gameObject.GetComponent<Animation>()["Close"].speed = 0.5f;
+        gameObject.GetComponent<Animation>()[OpenAnim].speed = 0.5f;
+        gameObject.GetComponent<Animation>()[CloseAnim].speed = 0.5f;
 
 
     }

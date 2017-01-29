@@ -113,9 +113,9 @@ public class MapGen : MonoBehaviour
         PlaceLinks();
         LinkTiles();
 
-
+    
         PlaceCorridors();
-        placeLights();
+        //placeLights();
     }
 
 
