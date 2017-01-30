@@ -35,7 +35,7 @@ public class MainMenu : MonoBehaviour {
     public void OnStartPressed()
     {
         Seed.seedsave = seed;
-        SceneManager.LoadScene("EE");
+        SceneManager.LoadSceneAsync("EE");
     }
 
     public void OnClickExit()

@@ -6,14 +6,16 @@ public class OptimDoor : MonoBehaviour {
 
     public bool isNear;
     Vector3 instance;
-    Vector3 length;
+    Vector3 lengthToPlayer;
+    Vector3 lengthToS173;
     GameObject player;
+    GameObject s173;
     // Use this for initialization
     void Start()
     {
         instance = gameObject.transform.position;
         player = GameObject.Find("FPSController");
-
+        s173 = GameObject.Find("173");
 
 
     }
@@ -21,8 +23,10 @@ public class OptimDoor : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        length = player.transform.position - instance + new Vector3(0, 0.8f, 0);
-        if (length.magnitude < 70)
+        lengthToPlayer = player.transform.position - instance + new Vector3(0, 0.8f, 0);
+        lengthToS173 = s173.transform.position - instance + new Vector3(0, 0.8f, 0);
+
+        if (lengthToPlayer.magnitude < 70 || lengthToS173.magnitude < 70)
         {
             Enable();
         }

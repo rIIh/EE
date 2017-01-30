@@ -24,6 +24,7 @@ public class DoorScriptOnAnimator : MonoBehaviour {
     public string But2;
     public bool notToRand;
     public bool isMalf;
+    public bool isLocked;
 
     private void Start()
     {
@@ -43,22 +44,40 @@ public class DoorScriptOnAnimator : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other)
-    {
-        Icons();
+    {   if (other.tag == "Player")
+        {
+            Icons();
+        }
 
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+    if (other.tag == "173" && !isOpened && !isLocked && Random.value < 0.005f && !other.gameObject.GetComponent<s173>().isVisible)
+        {
+            isOpened = true;
+            gameObject.GetComponent<Animator>().SetTrigger("Opened");
+            gameObject.GetComponent<AudioSource>().clip = doorOpen;
+            gameObject.GetComponent<AudioSource>().Play();
+
+        }
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isLocked && other.tag == "Player")
         {
             if(!isOpened)
             {
-                print("huy");
                 gameObject.GetComponent<Animator>().SetTrigger("Opened");
-               // gameObject.GetComponent<Animator>().SetBool("isOpened", true);
+                // gameObject.GetComponent<Animator>().SetBool("isOpened", true);
+                gameObject.GetComponent<AudioSource>().clip = doorOpen;
+                gameObject.GetComponent<AudioSource>().Play();
+
                 isOpened = true;
             } else
 
             if (isOpened)
             {
                 gameObject.GetComponent<Animator>().SetTrigger("Closed");
+                gameObject.GetComponent<AudioSource>().clip = doorClose;
+                gameObject.GetComponent<AudioSource>().Play();
 
                 // gameObject.GetComponent<Animator>().SetBool("isOpened", false);
                 isOpened = false;
@@ -70,25 +89,28 @@ public class DoorScriptOnAnimator : MonoBehaviour {
 
 
     private void OnTriggerEnter(Collider other)
-    {
-        but1 = gameObject.GetComponentInChildren<Transform>().FindChild(But1);
-        but2 = gameObject.GetComponentInChildren<Transform>().FindChild(But2);
-        icon1 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
-        icon2 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
-
+    { if (other.tag == "Player")
+        {
+            but1 = gameObject.GetComponentInChildren<Transform>().FindChild(But1);
+            but2 = gameObject.GetComponentInChildren<Transform>().FindChild(But2);
+            icon1 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
+            icon2 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
+        }
     }
 
-    
+
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject.Destroy(icon1);
-        GameObject.Destroy(icon2);
+        if (other.tag == "Player")
+        {
+            GameObject.Destroy(icon1);
+            GameObject.Destroy(icon2);
+        }
     }
 
-
     void Icons()
-    {
+    { 
         var player = GameObject.Find("FPSController");
         var camera = GameObject.Find("FirstPersonCharacter");
         but1toPlayer = player.transform.position - but1.transform.position + new Vector3(0, 1, 0);
@@ -115,5 +137,12 @@ public class DoorScriptOnAnimator : MonoBehaviour {
             icon1.transform.LookAt(player.transform.position + new Vector3(0, 1, 0));
 
         }
+    }
+
+    private void Awake()
+    {
+        doorOpen = Resources.Load<AudioClip>("Sounds/DoorOpen1");
+        doorClose = Resources.Load<AudioClip>("Sounds/DoorClose1");
+
     }
 }

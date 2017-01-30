@@ -5,8 +5,11 @@ Temp/
 Library/
 Assets/Standard Assets/
 Assets/Standard Assets.meta
-Assets/FromStore/
+Assets/FromStore and ignore/
 Assets/Scenes/
+Assets/Animations/
+Assets/Materials/
+Assets/Resources/
 *.ini
 *.meta
 Assets/Materials
@@ -36,3 +39,7 @@ obj/
 ehthumbs.db
 Thumbs.db
 
+*.mat
+Assets/Materials/PinkGrid.mat
+*.unitypackage
+*.FBX

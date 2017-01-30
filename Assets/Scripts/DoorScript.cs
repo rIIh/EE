@@ -22,55 +22,66 @@ public class DoorScript : MonoBehaviour {
     public string OpenAnim;
     public string But1;
     public string But2;
-
+    public bool isLocked;
 
 
 
     private void OnTriggerStay(Collider other)
     {
-        var player = GameObject.Find("FPSController");
-        var camera = GameObject.Find("FirstPersonCharacter");
-        but1toPlayer = player.transform.position - but1.position + new Vector3(0, 1, 0);
-        but2toPlayer = player.transform.position - but2.position + new Vector3(0, 1, 0);
-        //var playerfv1 = (camera.transform.GetComponent<Camera>().transform.forward - new Vector3(0, 0, camera.transform.GetComponent<Camera>().transform.forward.z)) / 5;
-        //var playerfv2 = (camera.transform.GetComponent<Camera>().transform.forward + new Vector3(0, 0, camera.transform.GetComponent<Camera>().transform.forward.z)) / 5;
-        but1toPlayer = but1toPlayer / 4;
-        but2toPlayer = but2toPlayer / 4;
-
-        if (but1toPlayer.sqrMagnitude > but2toPlayer.sqrMagnitude)
+        if (other.tag == "173" && !isOpened && !isLocked && Random.value<0.005f && !other.gameObject.GetComponent<s173>().isVisible)
         {
-            icon2.GetComponent<MeshRenderer>().enabled = true;
-            icon1.GetComponent<MeshRenderer>().enabled = false;
-
-            icon2.transform.position = but2.position + but2toPlayer ;
-            icon2.transform.LookAt(player.transform.position + new Vector3(0, 1, 0));
+            GetComponent<Animation>().CrossFade(OpenAnim);
+            isOpened = true;
+            gameObject.GetComponent<AudioSource>().clip = doorOpen;
+            gameObject.GetComponent<AudioSource>().Play();
         }
-        else
+        
+             if (other.tag == "Player")
         {
-            icon1.GetComponent<MeshRenderer>().enabled = true;
-            icon2.GetComponent<MeshRenderer>().enabled = false;
+            var player = GameObject.Find("FPSController");
+            var camera = GameObject.Find("FirstPersonCharacter");
+            but1toPlayer = player.transform.position - but1.position + new Vector3(0, 1, 0);
+            but2toPlayer = player.transform.position - but2.position + new Vector3(0, 1, 0);
+            //var playerfv1 = (camera.transform.GetComponent<Camera>().transform.forward - new Vector3(0, 0, camera.transform.GetComponent<Camera>().transform.forward.z)) / 5;
+            //var playerfv2 = (camera.transform.GetComponent<Camera>().transform.forward + new Vector3(0, 0, camera.transform.GetComponent<Camera>().transform.forward.z)) / 5;
+            but1toPlayer = but1toPlayer / 4;
+            but2toPlayer = but2toPlayer / 4;
 
-            icon1.transform.position = but1.position + but1toPlayer ;
-            icon1.transform.LookAt(player.transform.position + new Vector3(0, 1, 0));
-
-        }
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            if (!isOpened && !gameObject.GetComponent<Animation>().isPlaying)
+            if (but1toPlayer.sqrMagnitude > but2toPlayer.sqrMagnitude)
             {
-                GetComponent<Animation>().CrossFade(OpenAnim);
-                isOpened = true;
-                gameObject.GetComponent<AudioSource>().clip = doorOpen;
-                gameObject.GetComponent<AudioSource>().Play();
+                icon2.GetComponent<MeshRenderer>().enabled = true;
+                icon1.GetComponent<MeshRenderer>().enabled = false;
+
+                icon2.transform.position = but2.position + but2toPlayer;
+                icon2.transform.LookAt(player.transform.position + new Vector3(0, 1, 0));
+            }
+            else
+            {
+                icon1.GetComponent<MeshRenderer>().enabled = true;
+                icon2.GetComponent<MeshRenderer>().enabled = false;
+
+                icon1.transform.position = but1.position + but1toPlayer;
+                icon1.transform.LookAt(player.transform.position + new Vector3(0, 1, 0));
 
             }
-            else if(!gameObject.GetComponent<Animation>().isPlaying)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isLocked)
+            {
+                if (!isOpened && !gameObject.GetComponent<Animation>().isPlaying && !isLocked)
+                {
+                    GetComponent<Animation>().CrossFade(OpenAnim);
+                    isOpened = true;
+                    gameObject.GetComponent<AudioSource>().clip = doorOpen;
+                    gameObject.GetComponent<AudioSource>().Play();
 
-             {
-                GetComponent<Animation>().CrossFade(CloseAnim);
-                gameObject.GetComponent<AudioSource>().clip = doorClose;
-                gameObject.GetComponent<AudioSource>().Play();
-                isOpened = false;
+                }
+                else if (!gameObject.GetComponent<Animation>().isPlaying && !isLocked)
+
+                {
+                    GetComponent<Animation>().CrossFade(CloseAnim);
+                    gameObject.GetComponent<AudioSource>().clip = doorClose;
+                    gameObject.GetComponent<AudioSource>().Play();
+                    isOpened = false;
+                }
             }
         }
     }
@@ -78,17 +89,22 @@ public class DoorScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        but1 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild(But1);
-        but2 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild(But2);
-        icon1 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
-        icon2 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
-
+        if (other.tag == "Player")
+        {
+            but1 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild(But1);
+            but2 = gameObject.GetComponentInChildren<Transform>().FindChild("Door").GetComponentInChildren<Transform>().FindChild(But2);
+            icon1 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
+            icon2 = Instantiate(icon, new Vector3(0, 0, 0), Quaternion.identity, transform);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject.Destroy(icon1);
-        GameObject.Destroy(icon2);
+        if (other.tag == "Player")
+        {
+            GameObject.Destroy(icon1);
+            GameObject.Destroy(icon2);
+        }
     }
 
     void Awake()

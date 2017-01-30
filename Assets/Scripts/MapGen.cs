@@ -26,6 +26,8 @@ public class MapGen : MonoBehaviour
     int ebSize;
     public List<Vector3> DoorCoords;
     public bool Debug;
+    public List<Vector3> beginCoords = new List<Vector3>();
+
 
     void ResetVars()
     {
@@ -39,7 +41,19 @@ public class MapGen : MonoBehaviour
         tile.transform.localScale = new Vector3(tileSize / 100, (float)0.1, tileSize / 100);
         //root.transform.localScale = new Vector3(tileSize / 100, (float)0.2, tileSize / 100);
         link.transform.localScale = new Vector3(tileSize / 10, (float)0.3, tileSize / 10);
-        ebSize = levelSize / 5;
+        ebSize = levelSize / 2;
+        beginCoords.Add(new Vector3(0,0,0));
+        beginCoords.Add(new Vector3(20, 0, 0));
+        beginCoords.Add(new Vector3(20, 0, 20));
+        beginCoords.Add(new Vector3(0, 0, 20));
+        beginCoords.Add(new Vector3(-20, 0, 20));
+        beginCoords.Add(new Vector3(-20, 0, 0));
+        beginCoords.Add(new Vector3(-20, 0, -20));
+        beginCoords.Add(new Vector3(0, 0, -20));
+        beginCoords.Add(new Vector3(20, 0, -20));
+        treeRoots.Add(new Vector3(40, 0, 0));
+        tileCoords.Add(new Vector3(20, 0, 0));
+
     }
 
 
@@ -85,8 +99,8 @@ public class MapGen : MonoBehaviour
         }
 
         ResetVars();
-        PlaceTile(new Vector3(0, 0, 0));
-        generateFirstBranch(new Vector3(0, 0, 0), levelSize);
+        PlaceTile(new Vector3(40, 0, 0));
+        generateFirstBranch(new Vector3(40, 0, 0), levelSize);
         PlaceRootPoints();
         GenerateBranches(levelSize);
         PlaceLinks();
@@ -116,20 +130,34 @@ public class MapGen : MonoBehaviour
     
         PlaceCorridors();
         //placeLights();
+        AstarPath.active.Scan();
     }
 
 
-    void generateFirstBranch(Vector3 currentPos, int size)
+    void generateFirstBranch(Vector3 curLoc, int size)
     {
+
+
         currentOrient = new Vector3(0, 0, 0);
         var safe = 0;
         for (int i = 0; i < size - 1; i++)
         {
             int orInd = Random.Range(0, 99) % 4;
             currentOrient = orientation[orInd];
-            wannaBeLoc = currentPos + currentOrient;
+            wannaBeLoc = curLoc + currentOrient;
             orInd++;
 
+            bool notBegin = (
+    !beginCoords.Contains(wannaBeLoc) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(20, 0, 0)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(20, 0, 20)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(0, 0, 20)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(-20, 0, 20)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(-20, 0, 0)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(-20, 0, -20)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(0, 0, -20)) &&
+    !beginCoords.Contains(wannaBeLoc + new Vector3(20, 0, -20))
+    );
             if (orInd == 4)
             {
                 orInd = 0;
@@ -138,13 +166,13 @@ public class MapGen : MonoBehaviour
             if (
                 !tileCoords.Contains(wannaBeLoc) &&
                 !tileCoords.Contains(wannaBeLoc + orientation[orInd]) &&
-                !tileCoords.Contains(wannaBeLoc - orientation[orInd]))
+                !tileCoords.Contains(wannaBeLoc - orientation[orInd]) && !beginCoords.Contains(wannaBeLoc)) 
             {
-                currentPos = wannaBeLoc;
-                PlaceTile(currentPos);
+                curLoc = wannaBeLoc;
+                PlaceTile(curLoc);
             }
             else if (
-                !tileCoords.Contains(wannaBeLoc) &&
+                !tileCoords.Contains(wannaBeLoc) && notBegin &&
                 (
                 (
                 !tileCoords.Contains(wannaBeLoc + orientation[orInd]) &&
@@ -161,8 +189,8 @@ public class MapGen : MonoBehaviour
 
                 )
             {
-                currentPos = wannaBeLoc;
-                PlaceTile(currentPos);
+                curLoc = wannaBeLoc;
+                PlaceTile(curLoc);
 
             }
             else
@@ -232,6 +260,7 @@ public class MapGen : MonoBehaviour
                     PlaceDebugRoot(curTile);
                 }
             }
+            
         }
 
     }
@@ -249,6 +278,18 @@ public class MapGen : MonoBehaviour
                 wannaBeLoc = currentPos + currentOrient;
                 orInd++;
 
+                bool notBegin = (
+!beginCoords.Contains(wannaBeLoc) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(20, 0, 0)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(20, 0, 20)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(0, 0, 20)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(-20, 0, 20)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(-20, 0, 0)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(-20, 0, -20)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(0, 0, -20)) &&
+!beginCoords.Contains(wannaBeLoc + new Vector3(20, 0, -20))
+);
+
                 if (orInd == 4)
                 {
                     orInd = 0;
@@ -257,13 +298,13 @@ public class MapGen : MonoBehaviour
                 if (
                     !tileCoords.Contains(wannaBeLoc) &&
                     !tileCoords.Contains(wannaBeLoc + orientation[orInd]) &&
-                    !tileCoords.Contains(wannaBeLoc - orientation[orInd]))
+                    !tileCoords.Contains(wannaBeLoc - orientation[orInd]) && !beginCoords.Contains(wannaBeLoc) )
                 {
                     currentPos = wannaBeLoc;
                     PlaceTile(currentPos);
                 }
                 else if (
-                    !tileCoords.Contains(wannaBeLoc) &&
+                    !tileCoords.Contains(wannaBeLoc) && notBegin &&
                     (
                     (
                     !tileCoords.Contains(wannaBeLoc + orientation[orInd]) &&
@@ -426,8 +467,11 @@ public class MapGen : MonoBehaviour
     {
         foreach (Vector3 curLoc in linkCoords)
         {
-            PlaceTile(curLoc);
-            generateFirstBranch(curLoc, size);
+            if (!beginCoords.Contains(curLoc))
+            {
+                PlaceTile(curLoc);
+                generateFirstBranch(curLoc, size);
+            }
         }
     }
 
@@ -435,6 +479,11 @@ public class MapGen : MonoBehaviour
     {
         foreach (Vector3 curPos in tileCoords)
         {
+            if (curPos == new Vector3(20, 0, 0))
+            {
+                print(true);
+                continue;
+            }
             for (int i = 0; i < 4; i++)
             {
                 var orient = orientation[i];
