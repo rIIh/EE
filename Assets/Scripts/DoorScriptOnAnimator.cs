@@ -36,7 +36,6 @@ public class DoorScriptOnAnimator : MonoBehaviour {
         if (Random.value >= 0.7 && !notToRand)
         if (!isOpened)
         {
-            print("huy");
             gameObject.GetComponent<Animator>().SetTrigger("Opened");
             // gameObject.GetComponent<Animator>().SetBool("isOpened", true);
             isOpened = true;

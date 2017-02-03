@@ -42,8 +42,6 @@ public class DoorScript : MonoBehaviour {
             var camera = GameObject.Find("FirstPersonCharacter");
             but1toPlayer = player.transform.position - but1.position + new Vector3(0, 1, 0);
             but2toPlayer = player.transform.position - but2.position + new Vector3(0, 1, 0);
-            //var playerfv1 = (camera.transform.GetComponent<Camera>().transform.forward - new Vector3(0, 0, camera.transform.GetComponent<Camera>().transform.forward.z)) / 5;
-            //var playerfv2 = (camera.transform.GetComponent<Camera>().transform.forward + new Vector3(0, 0, camera.transform.GetComponent<Camera>().transform.forward.z)) / 5;
             but1toPlayer = but1toPlayer / 4;
             but2toPlayer = but2toPlayer / 4;
 

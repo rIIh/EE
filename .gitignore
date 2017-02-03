@@ -43,3 +43,11 @@ Thumbs.db
 Assets/Materials/PinkGrid.mat
 *.unitypackage
 *.FBX
+/Assets/Models/uvws
+/Assets/Prefabs
+*.unity
+*.asset
+*.tga
+*.png
+*.jpg
+*.prefab

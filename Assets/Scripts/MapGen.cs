@@ -481,7 +481,6 @@ public class MapGen : MonoBehaviour
         {
             if (curPos == new Vector3(20, 0, 0))
             {
-                print(true);
                 continue;
             }
             for (int i = 0; i < 4; i++)
